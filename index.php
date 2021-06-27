@@ -13,15 +13,18 @@ include "koneksi.php";
 </head>
 
 <body>
-    <h1>Selamat datang di website pakar penyakit umum</h1>
-    <a class="btn btn-success" href="inputNama.php">Tambah Data Baru</a>
-    <br>
+<div class="container">
+<h1 align="center">SELAMAT DATANG DI WEBSITE PAKAR PENYAKIT UMUM</h1>
+
     <div>
+        <center>
+            <a style="margin-top: 24px; margin-bottom: 24px;" class="btn btn-success" href="inputNama.php">Tambah Data Baru</a>
+        </center>
         <?php
-        $sql = "SELECT * FROM user inner join diagnosa on user.id_user = diagnosa.id_user";
+        $sql = "SELECT * FROM user inner join diagnosa on user.id_user = diagnosa.id_user inner join penyakit on diagnosa.penyakit = penyakit.id_penyakit";
         $listUser = mysqli_query($conn, $sql);
         ?>
-        <table class="table">
+        <table  class="table">
             <thead>
                 <th>Nama Pelanggan</th>
                 <th>Jenis Kelamin</th>
@@ -29,6 +32,7 @@ include "koneksi.php";
                 <th>Waktu diagnosa</th>
                 <th>Terkena penyakit</th>
                 <th>Tingkat Kepastian</th>
+                <th>Keterangan</th>
             </thead>
             <tbody>
                 <?php
@@ -39,6 +43,10 @@ include "koneksi.php";
                         <td> <?= $value['jenis_kelamin'] ?> </td>
                         <td> <?= $value['umur'] ?> </td>
                         <td> <?= $value['tanggal'] ?> </td>
+                        <td> <?= $value['nama_penyakit'] ?> </td>
+                        <td> <?= $value['persentase'] ?> </td>
+                        <td><a style="margin-top: 24px; margin-bottom: 24px;" class="btn btn-success" href= "detail.php?detail=<?= $value['id_diagnosa']?>" >Detail</a>
+                        </td>
                     </tr>
                 <?php
                 }
@@ -46,6 +54,8 @@ include "koneksi.php";
             </tbody>
         </table>
     </div>
+</div>
+    
 </body>
 
 </html>

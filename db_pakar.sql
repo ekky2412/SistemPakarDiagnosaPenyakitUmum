@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 25, 2021 at 10:43 AM
--- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.9
+-- Generation Time: Jun 25, 2021 at 06:03 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -41,7 +40,41 @@ CREATE TABLE `detail_diagnosa` (
 INSERT INTO `detail_diagnosa` (`id_diagnosa`, `id_gejala`, `cf_user`) VALUES
 (1, 1, '1'),
 (1, 4, '0.2'),
-(1, 10, '1');
+(1, 10, '1'),
+(6, 1, '1'),
+(6, 4, '0.2'),
+(6, 10, '1'),
+(7, 1, '0.8'),
+(7, 2, '0.2'),
+(7, 3, '0.2'),
+(7, 4, '0.2'),
+(7, 7, '0.6'),
+(7, 8, '0.6'),
+(7, 9, '1'),
+(7, 10, '0.8'),
+(7, 11, '1'),
+(7, 12, '0.2'),
+(7, 13, '0.6'),
+(7, 14, '0.6'),
+(7, 15, '0.8'),
+(7, 16, '1'),
+(7, 17, '0.6'),
+(8, 4, '0.2'),
+(8, 5, '0.4'),
+(8, 6, '0.4'),
+(8, 7, '0.4'),
+(8, 8, '0.6'),
+(8, 9, '0.4'),
+(8, 10, '0.2'),
+(8, 12, '0.4'),
+(8, 13, '0.2'),
+(8, 14, '0.4'),
+(8, 15, '0.4'),
+(8, 16, '1'),
+(8, 17, '0.8'),
+(9, 3, '1'),
+(9, 10, '0.6'),
+(9, 12, '1');
 
 -- --------------------------------------------------------
 
@@ -51,15 +84,21 @@ INSERT INTO `detail_diagnosa` (`id_diagnosa`, `id_gejala`, `cf_user`) VALUES
 
 CREATE TABLE `diagnosa` (
   `id_diagnosa` int(11) NOT NULL,
-  `id_user` int(11) NOT NULL
+  `id_user` int(11) NOT NULL,
+  `penyakit` int(11) NOT NULL,
+  `persentase` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `diagnosa`
 --
 
-INSERT INTO `diagnosa` (`id_diagnosa`, `id_user`) VALUES
-(1, 1);
+INSERT INTO `diagnosa` (`id_diagnosa`, `id_user`, `penyakit`, `persentase`) VALUES
+(1, 1, 1, 0.6928),
+(6, 6, 1, 0.6928),
+(7, 7, 1, 0.909615),
+(8, 8, 1, 0.854762),
+(9, 9, 4, 0.8592);
 
 -- --------------------------------------------------------
 
@@ -202,7 +241,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id_user`, `nama_user`, `jenis_kelamin`, `umur`, `tanggal`) VALUES
-(1, 'Satya', 'L', 90, '2021-04-25 08:27:45');
+(1, 'Satya', 'L', 90, '2021-06-25 15:04:59'),
+(6, 'Rama', 'L', 98, '2021-06-25 15:45:04'),
+(7, 'Istik', 'P', 17, '2021-06-25 15:56:19'),
+(8, 'Daru', 'L', 20, '2021-06-25 15:57:43'),
+(9, 'Kalian', 'L', 21, '2021-06-25 15:59:14');
 
 --
 -- Indexes for dumped tables
@@ -220,7 +263,8 @@ ALTER TABLE `detail_diagnosa`
 --
 ALTER TABLE `diagnosa`
   ADD PRIMARY KEY (`id_diagnosa`),
-  ADD KEY `fk_id_user` (`id_user`);
+  ADD KEY `fk_id_user` (`id_user`),
+  ADD KEY `fk_id_user_kena` (`penyakit`);
 
 --
 -- Indexes for table `gejala`
@@ -257,7 +301,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `diagnosa`
 --
 ALTER TABLE `diagnosa`
-  MODIFY `id_diagnosa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_diagnosa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `gejala`
@@ -275,7 +319,7 @@ ALTER TABLE `penyakit`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
@@ -292,7 +336,8 @@ ALTER TABLE `detail_diagnosa`
 -- Constraints for table `diagnosa`
 --
 ALTER TABLE `diagnosa`
-  ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_id_user_kena` FOREIGN KEY (`penyakit`) REFERENCES `penyakit` (`id_penyakit`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rule`
